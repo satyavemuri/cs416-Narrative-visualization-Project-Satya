@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Narrative Visualization - Netflix Original Films & IMDB Scores</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css"></style>
+  <!-- <script src='https://d3js.org/d3.v5.min.js'></script> -->
+  <!-- <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script> -->
+  <script src="scripts/d3.v5.min.js"></script>
+  <script src="scripts/d3-annotation.min.js"></script>
+  <script> 
+   var sliedSelectedClass = 'slide-number-tab-selected';
+   var currentTab = 'tab1';
+ </script>
+</head>
+<body>
+
+  <div id="slideNumbers" class="slide-links-container">
+    <div class ="slide-number-tab" onclick="prevTab()"><strong><<</strong></div>
+    <div id="tab1" class="slide-number-tab slide-number-tab-selected" onclick="resetSlides(),renderSlide('slide1'),selectTab(this)">Overview</div>
+    <div id="tab2" class="slide-number-tab" onclick="resetSlides(),renderChart1('slide2',selectTab(this))">Scene1</div>
+    <div id="tab3" class="slide-number-tab" onclick="resetSlides(),renderChart2('slide3',selectTab(this))">Scene2</div>
+    <div id="tab4" class="slide-number-tab" onclick="resetSlides(),renderChart3('slide4'),selectTab(this)">Scene3</div>
+     <div class ="slide-number-tab" onclick="nextTab()"><strong>>></strong></div>
+  </div>
+
+  <div id="slide1" class="slide-container">
+
+    <h3>Message Communicated in the Visualization</h3>
+    <div class="intro">
+      <p>
+        The purpose of this visualization is to explore the following question: has Netflix improved at making
+        original films over time?
+      </p>
+    </div>
+
+   <h3>About the Visualization</h3>
+        <div class="intro">
+          <p>
+            <strong>Interactive Slideshow</strong>
+            This narrative visualization follows the structure of an Interactive Slideshow allowing the user to traverse the slides and look at the number of Netflix original films by year, average IMDB scores by year, and average IMDB scores by genre.
+          </p>
+          <p>
+            <strong>Scenes</strong>
+            This narrative visualization contains the scenes in below order following Linear-Author-led path.<br>
+            1.  Overview<br>
+            2.  Scene1(Number of Netflix Originals by Year)<br>
+            3.  Scene2(Average IMDB Score of Netflix Originals by Year)<br>
+            4.  Scene3(Average IMDB Score of Netflix Originals by Genre)<br><br>
+
+            Three scenes have been included in this visualization using consistent template and layout. User's can
+            navigate through the slideshow by clicking the tabs "Overview", Scene1", "Scene2", "Scene3".
+          </p>
+          <p>
+            <strong>Annotations</strong>
+            Interesting trends are annotated in charts 1 and 2 using black font. These are meant to draw a user's attention
+            to areas of the chart that are important to the overarching question behind the visualization.
+          </p>
+          <p>
+            <strong>Parameters</strong>
+            Charts 2 and 3 include parameters that allow users to interact with the data via filtering. The scenes aim to answer a simple question about average IMDB scores of the Netflix Originals and these parameters allow users to explore data of their interested year and genre.
+          </p>
+          <p>
+            <strong>Triggers</strong>
+            One set of triggers in this visualization is via modifying the filters on charts 2 and 3 which triggers changes to the parameters discussed above and updates the charts to reflect the event. These triggers are provided for the user to communicate with the visualization
+
+            The other set of triggers in this visualization is via slides navigation by selecting the slide.
+
+          </p>
+        </div>
+  </div>
+  <div id="slide2" class="slide-container" style="display: none;">
+    <h3>Number of Netflix Originals by Year</h3>
+    <div class="chart chart1">
+      <svg id="svg1"></svg>
+    </div>
+    <div class="intro">
+      <p>
+        This chart shows that the number of Netflix originals has increased each year over the past several years.
+        Note that the dataset includes originals up to June 1st, 2021, so although it looks like less originals were
+        produced in 2021 the reality is that Netflix is on track to produce a similar number of originals to 2020.
+      </p>
+      <p>
+        This chart proves that Netflix is continuing to invest more and more in original films, but the question still stands, have they improved film quality over time? Next, look at average IMDB scores for each year to move closer to an answer.
+      </p>
+    </div>
+  </div>
+  <div id="slide3" class="slide-container" style="display: none;">
+    <h3>Average IMDB Score of Netflix Originals by Year</h3>
+        <div class="chart chart2">
+          <svg id="svg2"></svg>
+          <input type="checkbox" checked="checked" value="2014" id="Action" onClick="updateChart2Data()">Action</input>
+          <input type="checkbox" checked="checked" value="2015" id="Adventure" onClick="updateChart2Data()">Adventure</input>
+          <input type="checkbox" checked="checked" value="2016" id="Animation" onClick="updateChart2Data()">Animation</input>
+          <input type="checkbox" checked="checked" value="2017" id="Anime" onClick="updateChart2Data()">Anime</input>
+          <input type="checkbox" checked="checked" value="2018" id="Christmas" onClick="updateChart2Data()">Christmas</input>
+          <input type="checkbox" checked="checked" value="2019" id="Comedy" onClick="updateChart2Data()">Comedy</input>
+          <input type="checkbox" checked="checked" value="2020" id="Crime" onClick="updateChart2Data()">Crime</input>
+          <input type="checkbox" checked="checked" value="2021" id="Documentary" onClick="updateChart2Data()">Documentary</input>
+          <input type="checkbox" checked="checked" value="2021" id="Drama" onClick="updateChart2Data()">Drama</input>
+          <input type="checkbox" checked="checked" value="2021" id="Fantasy" onClick="updateChart2Data()">Fantasy</input>
+          <input type="checkbox" checked="checked" value="2021" id="Family" onClick="updateChart2Data()">Family</input>
+          <input type="checkbox" checked="checked" value="2021" id="Musical" onClick="updateChart2Data()">Musical</input>
+          <input type="checkbox" checked="checked" value="2021" id="Mystery" onClick="updateChart2Data()">Mystery</input>
+          <input type="checkbox" checked="checked" value="2021" id="Other" onClick="updateChart2Data()">Other</input>
+          <input type="checkbox" checked="checked" value="2021" id="Romance" onClick="updateChart2Data()">Romance</input>
+          <input type="checkbox" checked="checked" value="2021" id="Science-Fiction" onClick="updateChart2Data()">Science Fiction</input>
+          <input type="checkbox" checked="checked" value="2021" id="Sports-film" onClick="updateChart2Data()">Sports film</input>
+          <input type="checkbox" checked="checked" value="2021" id="War" onClick="updateChart2Data()">War</input>
+          <input type="checkbox" checked="checked" value="2021" id="Western" onClick="updateChart2Data()">Western</input>
+        </div>
+        <div class="intro">
+          <p>
+            This chart shows that average IMDB scores have actually steadily declined over the past several years
+            starting in 2016. So far, Netflix original films in 2021 have received the worst scores since 2014.
+            Check/uncheck the checkboxes to see how scores have changed for a given set of genres.
+          </p>
+          <p>
+            This chart ultimately answers whether Netflix has improved at producing original films - on average, they haven't. That said, it's difficult to see how all genres have scored for a given year. Next (and finally), let's look at average scores for each genre to provide even more insight into the data.
+          </p>
+          <p>
+            <strong>Note:</strong> Annotaions are shown only when all the genre checkboxes checked. Annotations will disappear when any one of the genre checkbox is unchecked.
+          </p>
+          <p>
+            <strong>Note:</strong> Atleast one genre checkbox needs to be selected
+          </p>
+        </div>
+  </div>
+  <div id="slide4" class="slide-container" style="display: none;">
+    <h3>Average IMDB Score of Netflix Originals by Genre</h3>
+    <div class="chart chart3">
+      <svg id="svg3"></svg>
+      <input type="checkbox" checked="checked" value="2014" id="checkbox-2014" onClick="updateChart3Data()">2014</input>
+      <input type="checkbox" checked="checked" value="2015" id="checkbox-2015" onClick="updateChart3Data()">2015</input>
+      <input type="checkbox" checked="checked" value="2016" id="checkbox-2016" onClick="updateChart3Data()">2016</input>
+      <input type="checkbox" checked="checked" value="2017" id="checkbox-2017" onClick="updateChart3Data()">2017</input>
+      <input type="checkbox" checked="checked" value="2018" id="checkbox-2018" onClick="updateChart3Data()">2018</input>
+      <input type="checkbox" checked="checked" value="2019" id="checkbox-2019" onClick="updateChart3Data()">2019</input>
+      <input type="checkbox" checked="checked" value="2020" id="checkbox-2020" onClick="updateChart3Data()">2020</input>
+      <input type="checkbox" checked="checked" value="2021" id="checkbox-2021" onClick="updateChart3Data()">2021</input>
+    </div>
+    <div class="intro">
+      <p>
+        This chart shows that Netflix excels at producing original films in the Animation, Crime, Documentary, and
+        War genres. Check/uncheck the checkboxes to see how genres have scored for a given set of years.
+      </p>
+      <p>
+        From the past 3 charts, it's clear that although Netflix is producing more and more original films, the quality of these films (according to IMDB) has declined over the past several years, but specific genres have outperformed others.
+      </p>
+       <p>
+        <strong>Note:</strong> Atleast one year checkbox needs to be selected
+      </p>
+    </div>    
+  </div>
+  <script>
+    var charts = {};
+    
+    function nextTab(){
+      if(currentTab == 'tab4'){
+        return;
+      }
+      switch(currentTab) {
+        case 'tab1': 
+          document.getElementById('tab2').click();
+          currentTab = 'tab2'
+          break;
+        case 'tab2': 
+          document.getElementById('tab3').click();
+          currentTab = 'tab3'
+          break;
+        case 'tab3': 
+          document.getElementById('tab4').click();
+          currentTab = 'tab4'
+          break;
+      }
+    }
+
+    function prevTab(){
+      if(currentTab == 'tab1'){
+        return;
+      }
+      switch(currentTab) {
+        case 'tab2': 
+          document.getElementById('tab1').click();
+          currentTab = 'tab1'
+          break;
+        case 'tab3': 
+          document.getElementById('tab2').click();
+          currentTab = 'tab2'
+          break;
+        case 'tab4': 
+          document.getElementById('tab3').click();
+          currentTab = 'tab3'
+          break;
+      }
+    }
+    function resetSlides() {
+      hideSlide("slide1");
+      hideSlide("slide2");
+      hideSlide("slide3");
+      hideSlide("slide4");  
+      removeClassFromElement("tab1", sliedSelectedClass);
+      removeClassFromElement("tab2", sliedSelectedClass);
+      removeClassFromElement("tab3", sliedSelectedClass);
+      removeClassFromElement("tab4", sliedSelectedClass);
+    }
+
+    function selectTab(element){
+      element.classList.add(sliedSelectedClass);
+      currentTab = element.getAttribute("id");
+    }
+
+
+    function hideSlide(slideId) {
+      document.getElementById(slideId).setAttribute("style","display:none");
+    }
+
+    function renderSlide(slideId) {
+      document.getElementById(slideId).setAttribute("style","display:block");
+
+    }
+
+    function removeClassFromElement(elementId, classToRemove) {
+      var element = document.getElementById(elementId);
+      element.classList.remove(classToRemove);
+    }
+
+  </script>
+  <script src="scripts/chart1.js"></script>
+  <script src="scripts/chart2.js"></script>
+  <script src="scripts/chart3.js"></script>
+</body>
+</html>
